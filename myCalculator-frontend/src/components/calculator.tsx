@@ -33,7 +33,11 @@ export default class Calculator extends React.Component<any,any>{
             operand2 : this.state.txtOperand2,
             operation: this.state.txtOperation
         };
-        axios.post()
+        axios.post("http://localhost:8080/evaluate", evaluate).then(res=>{
+            if(res.status==200){
+                this.setState({result: res.data})
+            }
+        })
 
         this.setState({
             txtOperand1: e.target.value
@@ -43,34 +47,14 @@ export default class Calculator extends React.Component<any,any>{
         return(
             <div className="container">
                 <form>
-                    <input type="text" name="operand1" id="operand1" />
-                    <input type="text" name="operand2" id="operand2" />
-                    <input type={"text"} name="result"/>
+                    <input type="text" name="operand1" id="operand1" value={this.state.txtOperand1} onChange={this.handleOperand1} placeholder="first number"/>
+                    <input type="text" name="operand2" id="operand2"  value={this.state.txtOperand2} onChange={this.handleOperand2} placeholder="second number"/>
+                    <input type="text" name="operation" id="operation" value={this.state.txtOperation} onChange={this.handleOperation} placeholder= "operation"/>
+                    <input type={"text"} name="result" value={this.state.result} placeholder="result" readOnly/>
+                    <br/>
+                    <input type={"submit"} value="Evaluate" className="btn"/>
                 </form>
-                <div className="keypad">
-                    <button id="clear">Clear</button>
-                    
-                    <button>&divide;</button>
-                    <button>&times;</button>
-                    <button>7</button>
-                    <button>8</button>
-                    <button>9</button>
-                    <button>&ndash;</button>
-                    <button>4</button>
-                    <button>5</button>
-                    <button>6</button>
-                    <button>+</button>
-                    <button>1</button>
-                    <button>2</button>
-                    <button>3</button>
-                    <button>&times; &times;</button>
-                    <button>0</button>
-                    <button>log</button>
-                    <button>ln</button>
-                    <button>=</button>
 
-
-                </div>
                 
             </div>
         )
